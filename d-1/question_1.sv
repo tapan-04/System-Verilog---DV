@@ -20,7 +20,6 @@ module tb();
     $monitor ("rst = %0d : time = %0t", rst , $time);
   end
   
-    
   initial begin
     $dumpfile("dump.vcd");
     $dumpvars;
