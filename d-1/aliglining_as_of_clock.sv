@@ -39,7 +39,6 @@ module tb();
     $dumpvars;
   end
  
- 
   initial begin
     #200;
     $finish();
