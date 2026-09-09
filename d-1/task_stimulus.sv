@@ -4,9 +4,7 @@ module tb;
   bit [4:0] y;
   
   bit clk = 0;
-  
-  always #5 clk = ~clk; 
-  
+   
   task add ();
    y = a + b;
    $display("a : %0d and b : %0d and y : %0d",a,b,y);
