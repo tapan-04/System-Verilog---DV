@@ -14,7 +14,7 @@ module tb;
     
     f1.data = 24;   ///2. processing
     
-    p1 = new f1;  /// 3. copying data from f1 to p1
+    p1 = new f1;  ///3. copying data from f1 to p1
     
     $display("Value of data member : %0d", p1.data); 
     
