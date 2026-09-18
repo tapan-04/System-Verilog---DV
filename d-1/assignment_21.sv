@@ -18,6 +18,8 @@ endclass
  
 /////////////////Add testbench top code"
 
+-------------
+
 class generator;
 
   rand bit rst;
