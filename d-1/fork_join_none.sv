@@ -21,7 +21,7 @@ module tb;
     fork
       first();
       second();
-    join_none
+    join_none   // Same code as "any", just replaced "any" to "none"
 
     third();
   end
