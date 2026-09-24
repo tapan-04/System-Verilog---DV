@@ -1,5 +1,7 @@
 # RTL Register Path
 
+EDA Playground Link : https://www.edaplayground.com/x/k9pb
+
 ## Objective
 
 A simple RTL register path implemented to reinforce concepts introduced in the ASIC Design Flow module.
