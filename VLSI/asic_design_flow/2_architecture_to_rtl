@@ -1,0 +1,413 @@
+# ASIC Design Flow — Part 2: Architecture to RTL Design
+
+## Architecture
+
+After specification, the next stage is architecture.
+
+Architecture defines the high-level organization of the system.
+
+For an SoC or embedded microcontroller, architecture determines:
+
+- What components are required
+- Number of IP blocks
+- Required subsystems
+- How IPs and subsystems are integrated
+- On-chip bus/interconnect
+- Processor selection
+- System organization
+
+### Basic flow
+
+Specification
+↓
+Architecture
+↓
+Functional Model
+↓
+RTL
+
+---
+
+## Architecture vs Microarchitecture
+
+### Architecture
+
+Describes the high-level organization of the system.
+
+Examples:
+
+- Processor
+- Memory
+- IP blocks
+- Peripherals
+- Interconnect/bus
+- Subsystems
+
+### Microarchitecture
+
+Describes the internal implementation of a particular architectural block.
+
+For a processor, microarchitecture can include:
+
+- Datapath
+- Pipeline
+- Execution units
+- Registers
+- Control logic
+
+---
+
+# Functional / Behavioral Model
+
+After defining the architecture, a functional or behavioral model is created.
+
+The functional model represents the expected behavior of the system at a higher level of abstraction.
+
+A Transaction-Level Model (TLM) can be used to create the functional model.
+
+---
+
+# TLM
+
+TLM stands for Transaction-Level Model.
+
+A TLM represents system behavior using higher-level transactions rather than detailed RTL signals.
+
+A transaction represents a high-level operation or transfer.
+
+Examples include:
+
+- Read
+- Write
+- Request
+- Response
+- Packet transfer
+
+The functional model can be used as a reference for the expected behavior of the design.
+
+---
+
+# Golden Reference Model
+
+The functional model can act as a golden reference model.
+
+It produces the expected result for a given input or transaction.
+
+During verification:
+
+Input / Stimulus
+↓
+DUT → Actual Output
+TLM → Expected Output
+↓
+Scoreboard
+↓
+Compare
+↓
+PASS / FAIL
+
+---
+
+# DUT
+
+DUT stands for Design Under Test.
+
+The DUT is the hardware design being verified.
+
+In this flow, the DUT can be the synthesizable RTL implementation.
+
+---
+
+# Scoreboard
+
+A scoreboard compares the actual output from the DUT with the expected output from the reference model.
+
+Conceptually:
+
+Actual Output == Expected Output
+→ PASS
+
+Actual Output != Expected Output
+→ FAIL
+
+---
+
+# Parallel Development
+
+Different teams can work in parallel during chip development.
+
+For example:
+
+Architecture
+↓
+Functional Modeling → Functional Model
+
+Architecture
+↓
+RTL Development → Synthesizable RTL
+
+The functional model and RTL can be developed in parallel.
+
+The functional model can later be used as a reference during verification.
+
+---
+
+# PPA
+
+PPA stands for:
+
+- Power
+- Performance
+- Area
+
+### Power
+
+The design should consume an acceptable amount of power.
+
+### Performance
+
+The design should meet the required performance/frequency.
+
+### Area
+
+The design should use an acceptable amount of silicon area.
+
+These requirements can involve trade-offs.
+
+---
+
+# RTL
+
+RTL stands for Register Transfer Level.
+
+RTL describes digital hardware using:
+
+- Registers / flip-flops
+- Combinational logic
+- Data transfers between registers
+
+A basic register-to-register path can be represented as:
+
+Register
+↓
+Combinational Logic
+↓
+Register
+
+RTL allows the design to be described before synthesis.
+
+---
+
+# HDL
+
+HDL stands for Hardware Description Language.
+
+HDLs are used to describe digital hardware.
+
+Examples:
+
+- Verilog
+- VHDL
+- SystemVerilog
+
+---
+
+# Register-to-Register Timing
+
+A register-to-register timing path can be represented as:
+
+FF1
+↓
+Clock-to-Q delay
+↓
+Combinational Logic
+↓
+Propagation delay
+↓
+FF2
+↓
+Setup requirement
+
+### Important timing parameters
+
+### Clock-to-Q delay
+
+The delay from the active clock edge to the corresponding change at the flip-flop output Q.
+
+### Propagation delay
+
+The delay through the combinational logic between registers.
+
+### Setup time
+
+The minimum time for which data must be stable before the capturing clock edge.
+
+### Hold time
+
+The minimum time for which data must remain stable after the capturing clock edge.
+
+---
+
+# Minimum Clock Period
+
+For the simplified register-to-register timing path:
+
+Tclk(min) = tCQ + tPD + tsetup
+
+Where:
+
+- Tclk(min) = minimum clock period
+- tCQ = clock-to-Q delay
+- tPD = combinational propagation delay
+- tsetup = setup time
+
+Therefore:
+
+fmax = 1 / Tclk(min)
+
+Also:
+
+f = 1 / T
+
+---
+
+# Example
+
+If:
+
+tCQ = 1 ns
+
+tPD = 7 ns
+
+tsetup = 2 ns
+
+Then:
+
+Tclk(min) = 1 + 7 + 2
+Tclk(min) = 10 ns
+
+Therefore:
+
+fmax = 1 / 10 ns
+fmax = 100 MHz
+
+---
+
+# Setup vs Hold
+
+### Setup
+
+Data must be stable before the active clock edge.
+
+Setup violation:
+Data arrives too late.
+
+### Hold
+
+Data must remain stable after the active clock edge.
+
+Hold violation:
+New data arrives too early.
+
+---
+
+# Coding Style
+
+Coding style is important because the synthesis tool infers hardware from the HDL description.
+
+Different coding styles can describe different hardware behavior.
+
+For example:
+
+- `case` can be used to describe selection/multiplexer behavior.
+- `if/else` can express priority behavior.
+
+The coding style influences the hardware inferred by synthesis.
+
+---
+
+# Synthesizable RTL
+
+Not every HDL construct is intended to be synthesized into hardware.
+
+HDL constructs can broadly be considered as:
+
+- Synthesizable RTL constructs
+- Simulation/verification constructs
+
+A testbench is not synthesized into the chip.
+
+Verification code can use constructs that are not intended for synthesis.
+
+The RTL design must use constructs supported by the synthesis tool.
+
+---
+
+# Important Synthesizable RTL Concepts
+
+Two important considerations are:
+
+## 1. Synthesizable Construct Subset
+
+Use HDL constructs that can be converted into hardware by the synthesis tool.
+
+## 2. Coding Style
+
+Write the RTL in a style that correctly represents the intended hardware.
+
+---
+
+# Verification Relationship
+
+The relationship between the RTL design and functional model is:
+
+Input / Stimulus
+↓
+┌───────────────┬───────────────┐
+↓                               ↓
+DUT / RTL                    TLM / Reference
+↓                               ↓
+Actual Output               Expected Output
+└───────────────┬───────────────┘
+                ↓
+            Scoreboard
+                ↓
+          PASS / FAIL
+
+---
+
+# Important Terms
+
+- Architecture — high-level organization of a system.
+- Microarchitecture — internal implementation of an architectural block.
+- TLM — Transaction-Level Model.
+- Functional Model — high-level model representing expected system behavior.
+- Golden Reference — trusted reference used to generate expected results.
+- DUT — Design Under Test.
+- Scoreboard — compares actual and expected results.
+- PPA — Power, Performance, Area.
+- RTL — Register Transfer Level.
+- HDL — Hardware Description Language.
+- Clock-to-Q delay — delay from clock edge to flip-flop output.
+- Propagation delay — delay through combinational logic.
+- Setup time — required data stability before clock edge.
+- Hold time — required data stability after clock edge.
+- Synthesizable RTL — RTL that can be converted into hardware by synthesis.
+
+---
+
+# Key Takeaways
+
+- Architecture defines the high-level organization of the chip.
+- Microarchitecture defines the internal implementation of an architectural block.
+- A functional/TLM model represents expected system behavior.
+- The functional model can act as a golden reference.
+- The DUT is the design being verified.
+- A scoreboard compares actual DUT results with expected results.
+- PPA means Power, Performance and Area.
+- RTL represents hardware using registers and combinational logic.
+- Clock-to-Q, propagation delay and setup time contribute to the simplified minimum clock period.
+- Setup concerns data arriving too late.
+- Hold concerns data arriving too early.
+- HDL coding style influences the hardware inferred by synthesis.
+- Not every HDL construct is synthesizable.
