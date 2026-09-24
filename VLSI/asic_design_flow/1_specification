@@ -1,0 +1,342 @@
+# ASIC Design Flow — Part 1: Specification
+
+## Overview
+
+This part introduces the ASIC design flow, ASIC versus FPGA implementation, full-custom and standard-cell design, specification, hardware/software partitioning, and the front-end and back-end design flow.
+
+---
+
+## ASIC
+
+ASIC stands for Application-Specific Integrated Circuit.
+
+An ASIC is an integrated circuit designed for a specific application or purpose.
+
+ASICs are suitable for high-volume production because the initial development and fabrication cost can be distributed across a large number of chips.
+
+### Basic idea
+
+High initial cost
+→ Large production volume
+→ Cost distributed across many chips
+→ Lower cost per chip
+
+---
+
+## FPGA
+
+FPGA stands for Field-Programmable Gate Array.
+
+An FPGA is programmable hardware that can be configured after manufacturing.
+
+FPGAs are useful when flexibility is important or when the production volume does not justify manufacturing a dedicated ASIC.
+
+---
+
+## ASIC vs FPGA
+
+| ASIC | FPGA |
+|---|---|
+| Application-specific | Programmable |
+| Manufactured for a specific design | Configured after manufacturing |
+| High initial development/fabrication cost | More flexible |
+| Suitable for high-volume production | Useful for specialized/lower-volume applications |
+| Can be highly optimized | Can be reconfigured |
+
+The choice depends on factors such as production volume, performance, power, area, cost and flexibility.
+
+---
+
+## Full-Custom Design
+
+Full-custom design allows the designer to customize the implementation at a low level, including transistor, cell and layout design.
+
+It may be used when:
+
+- A suitable standard-cell library is unavailable
+- Highly customized implementation is required
+- Specific optimization is required
+- Custom analog or mixed-signal blocks are required
+
+---
+
+## Standard-Cell Design
+
+A standard-cell based design uses an existing library of pre-designed and characterized cells.
+
+Examples include:
+
+- NAND
+- NOR
+- AND
+- OR
+- NOT
+- Multiplexer
+- Flip-flop
+
+Instead of designing every cell from scratch, the design can use the available library cells.
+
+---
+
+## Full-Custom vs Standard-Cell
+
+### Full-Custom
+
+- Highly customized
+- Greater control over implementation
+- More design effort
+- Can include transistor/cell/layout customization
+
+### Standard-Cell
+
+- Uses predefined library cells
+- Less design effort than full-custom
+- Commonly used for digital ASIC implementation
+- Depends on availability of suitable libraries
+
+---
+
+# ASIC Design Flow
+
+The overall ASIC design flow is:
+
+Specification
+↓
+Architecture
+↓
+Functional Model
+↓
+Synthesizable RTL
+↓
+Verification
+↓
+Synthesis
+↓
+DFT
+↓
+Floorplanning
+↓
+Macro Placement
+↓
+Clock Tree
+↓
+Routing
+↓
+Static Timing Analysis
+↓
+Layout
+↓
+DRC
+↓
+LVS
+↓
+GDSII
+↓
+Manufacturing
+
+---
+
+## Front-End Design
+
+The front-end includes the design stages from specification through logical design and synthesis, including DFT.
+
+### Front-end
+
+Specification
+↓
+Architecture
+↓
+Functional Model
+↓
+Synthesizable RTL
+↓
+Verification
+↓
+Synthesis
+↓
+DFT
+
+The front-end mainly deals with the functional and logical implementation of the design.
+
+---
+
+## Back-End / Physical Design
+
+The back-end is also called physical design.
+
+### Back-end
+
+Floorplanning
+↓
+Macro Placement
+↓
+Clock Tree
+↓
+Routing
+↓
+Static Timing Analysis
+↓
+Layout
+↓
+DRC
+↓
+LVS
+↓
+GDSII
+
+Physical design converts the logical design into a physical implementation suitable for manufacturing.
+
+---
+
+## Specification
+
+Specification is the first stage of the ASIC design flow.
+
+The specification describes what the system needs to do.
+
+Customer requirements are identified and converted into system requirements and specifications.
+
+### Basic flow
+
+Customer Requirements
+↓
+Marketing
+↓
+Architect
+↓
+Specification
+
+Marketing teams interact with customers and identify desired features and requirements.
+
+Architects use these requirements to define the system specification.
+
+---
+
+## Hardware/Software Partitioning
+
+An electronic system can be divided into:
+
+Hardware + Software
+
+### Hardware implementation options
+
+- ASIC
+- FPGA
+- PLD
+- Standard chip
+
+The architect determines which functionality should be implemented in hardware and which should be handled by software.
+
+---
+
+## SoC
+
+SoC stands for System-on-Chip.
+
+An SoC integrates multiple system functions and blocks onto a single chip.
+
+Typical SoC components can include:
+
+- Processor
+- Memory
+- I/O
+- Peripherals
+- Other IP blocks
+
+Integrating multiple functions into an SoC can reduce the number of separate chips required in a system.
+
+---
+
+## IP
+
+IP stands for Intellectual Property.
+
+An IP block is a reusable hardware design block that can be integrated into a larger chip or SoC.
+
+Examples:
+
+- Processor core
+- Memory controller
+- USB controller
+- UART
+- PCIe controller
+
+---
+
+## Physical Design
+
+Physical design converts the logical design into a physical layout.
+
+Major stages include:
+
+### Floorplanning
+
+Planning the physical organization of the chip and major blocks.
+
+### Macro Placement
+
+Placing large blocks or macros in appropriate physical locations.
+
+### Clock Tree
+
+Implementing the clock distribution network.
+
+### Routing
+
+Creating physical interconnections between cells and blocks.
+
+### STA
+
+STA stands for Static Timing Analysis.
+
+STA is used to analyze timing behavior and timing constraints in the design.
+
+### Layout
+
+Represents the physical implementation of the circuit on silicon.
+
+### DRC
+
+DRC stands for Design Rule Checking.
+
+DRC checks whether the physical layout satisfies the manufacturing design rules.
+
+### LVS
+
+LVS stands for Layout Versus Schematic.
+
+LVS checks whether the layout connectivity matches the intended circuit.
+
+### GDSII
+
+GDSII stands for Graphic Design System II.
+
+GDSII represents the physical layout data used in the semiconductor manufacturing flow.
+
+---
+
+## Important Terms
+
+- ASIC — Application-Specific Integrated Circuit
+- FPGA — Field-Programmable Gate Array
+- PLD — Programmable Logic Device
+- SoC — System-on-Chip
+- IP — Intellectual Property
+- RTL — Register Transfer Level
+- DFT — Design for Testability
+- STA — Static Timing Analysis
+- DRC — Design Rule Checking
+- LVS — Layout Versus Schematic
+- GDSII — Graphic Design System II
+
+---
+
+## Key Takeaways
+
+- Understood the basic difference between ASIC and FPGA.
+- Learned the concept of full-custom and standard-cell design.
+- Learned the major stages of the ASIC design flow.
+- Understood the difference between front-end and back-end design.
+- Learned the purpose of specification and hardware/software partitioning.
+- Learned the basic stages of physical design.
+- Learned the roles of DFT, STA, DRC, LVS and GDSII.
